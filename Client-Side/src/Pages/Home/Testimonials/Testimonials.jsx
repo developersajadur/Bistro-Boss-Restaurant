@@ -9,11 +9,12 @@ import '@smastrom/react-rating/style.css'
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
-import axios from "axios";
+import useAxios from "../../../Hooks/useAxios";
 
 const Testimonials = () => {
+    const axiosSecure = useAxios();
     const [testimonials, setTestimonials] = useState([])
-    axios.get(`${import.meta.env.VITE_API_URL}/reviews`)
+    axiosSecure.get("/reviews")
     .then(res => {
         setTestimonials(res.data)
     })

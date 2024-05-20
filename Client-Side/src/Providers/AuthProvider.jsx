@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { FacebookAuthProvider, GoogleAuthProvider, TwitterAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import auth from "../Firebase/Firebase.config";
@@ -6,6 +6,11 @@ import { Bounce, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 
 export const AuthContext = createContext(null);
+// social auth providers
+
+const twitterProvider = new TwitterAuthProvider();
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -59,6 +64,28 @@ const AuthProvider = ({children}) => {
         });
     }
   };
+
+  //   google login
+
+  const googleLogin = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider)
+
+  }
+
+    // Twitter login
+
+    const twitterLogin = () => {
+        setLoading(true);
+        return signInWithPopup(auth, twitterProvider)
+      }
+
+    //   facebook login
+    const facebookLogin = () => {
+        setLoading(true);
+        return signInWithPopup(auth, facebookProvider)
+      }
+    
 //   log Out User
 
 const logOutUser =async () => {
@@ -83,7 +110,7 @@ const logOutUser =async () => {
   }, []);
 
 
-    const contextValue = { user, createUser , signInUser , logOutUser , loading};
+    const contextValue = { user, createUser , signInUser , logOutUser,facebookLogin ,googleLogin,twitterLogin, loading};
     return (
         <AuthContext.Provider value={contextValue}>
           {children}
