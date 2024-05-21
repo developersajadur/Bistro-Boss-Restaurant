@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 import { useForm } from "react-hook-form";
-import bgImg from "../../../public/others/authentication.png"
-import formImg from "../../../public/others/authentication2.png"
+import bgImg from "../../../public/others/authentication.png";
+import formImg from "../../../public/others/authentication2.png";
 import { FaFacebookF, FaGoogle, FaTwitter } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
@@ -10,8 +10,7 @@ import useAuth from "../../Hooks/useAuth";
 
 const Login = () => {
     const navigate = useNavigate();
-
-    const { signInUser, googleLogin, twitterLogin , facebookLogin} = useAuth();
+    const { signInUser, googleLogin, twitterLogin, facebookLogin } = useAuth();
 
     const handleSocialLogin = async (socialProvider) => {
         try {
@@ -21,7 +20,6 @@ const Login = () => {
             }
         } catch (error) {
             toast.error(error.message);
-            console.log(error.message);
         }
     };
 
@@ -32,9 +30,10 @@ const Login = () => {
     const handleTwitterLogin = () => {
         handleSocialLogin(twitterLogin);
     };
+
     const handleFacebookLogin = () => {
         handleSocialLogin(facebookLogin);
-    }
+    };
 
     useEffect(() => {
         loadCaptchaEnginge(4);
@@ -49,14 +48,12 @@ const Login = () => {
                 .then((result) => {
                     if (result.user) {
                         toast.success('Login successful');
-                        navigate(location?.state || "/");
+                        navigate(location.state || "/");
                     }
                 })
                 .catch(error => {
                     toast.error(error.message);
                 });
-            console.log(data);
-            toast.success('Captcha validated and form submitted');
         } else {
             toast.error("Captcha does not match");
         }

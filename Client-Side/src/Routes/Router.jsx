@@ -25,7 +25,7 @@ import Card from "../Pages/UserDashboard/Card";
           element:<Menu></Menu>
         },
         {
-          path:"/orders",
+          path:"/shop",
           element:<Orders></Orders>
         },{
           path:"/login",

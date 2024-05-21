@@ -5,11 +5,11 @@ import useAuth from "./useAuth";
 const useCard = () => {
     const {user} = useAuth();
     const axiosSecure = useAxios();
-    const userEmail = user?.email
     const {refetch, data: card = []} = useQuery({
-        queryKey:["card", userEmail],
+        queryKey:["card", user?.user],
+        enabled:!!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/cards?email=${userEmail}`);
+            const res = await axiosSecure.get(`/cards?email=${user?.email}`);
             return res.data;
         }
     })

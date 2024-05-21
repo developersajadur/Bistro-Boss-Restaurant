@@ -6,14 +6,15 @@ import useCard from "../../Hooks/useCard";
 const Header = () => {
     const { user, logOutUser } = useAuth();
     const [card] = useCard();
+    console.log(card);
     const navLinks = (
         <>
             <li><NavLink to="/">HOME</NavLink></li>
-            <li><NavLink to="/">CONTACT US</NavLink></li>
-            <li><NavLink to="/">DASHBOARD</NavLink></li>
+            <li><NavLink to="">CONTACT US</NavLink></li>
+            <li><NavLink to="">DASHBOARD</NavLink></li>
             <li><NavLink to="/menu">OUR MENU</NavLink></li>
-            <li><NavLink to="/orders">ORDERS</NavLink></li>
-            <li><NavLink to="/">OUR SHOP</NavLink></li>
+            <li><NavLink to="/shop">OUR SHOP</NavLink></li>
+            <li><NavLink to="">ORDERS</NavLink></li>
             <li><Link to="/userDashboard/my-card"> <div className="indicator">
             <FaShoppingCart className="bg-transparent text-2xl" />
           <span className="badge badge-sm indicator-item">{card?.length}</span>

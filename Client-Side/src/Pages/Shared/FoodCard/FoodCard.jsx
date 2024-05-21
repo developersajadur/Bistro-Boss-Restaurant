@@ -6,30 +6,28 @@ import useCard from "../../../Hooks/useCard";
 const FoodCard = ({ item }) => {
     const { user } = useAuth();
     const axiosSecure = useAxios();
-    const [, refetch] = useCard();
+    const [, refetch] = useCard(); // Ensure refetch is captured correctly
 
-
-    const handleAddCard = (food) => {
+    const handleAddCard = async (food) => {
         const cardItems = {
             foodId: food._id,
-            userEmail: user?.email,
-            foodName: food.name,
-            foodImg: food.image,
-            foodPrice: food.price,
-            foodRecipe: food.recipe,
-        }
-        if (user && cardItems?.userEmail) {
-            axiosSecure.post("/cards",cardItems)
-            .then(res => {
+            email: user?.email,
+            name: food.name,
+            image: food.image,
+            price: food.price,
+            recipe: food.recipe,
+        };
+
+        if (user && cardItems?.email) {
+            try {
+                const res = await axiosSecure.post("/cards", cardItems);
                 if (res.data.insertedId) {
                     toast.success(`${food.name} added to your card`);
+                    refetch();
                 }
-                refetch();
-            })
-            .catch(error => {
-                toast.error("Failed to add food to card");
-                console.error("There was an error adding the food to the card:", error);
-            });
+            } catch (error) {
+                toast.error("Failed to add to card");
+            }
         } else {
             toast.error("Please login first");
         }
@@ -46,7 +44,10 @@ const FoodCard = ({ item }) => {
                     <h2 className="card-title text-center">{item?.name}</h2>
                     <p>{item?.recipe}</p>
                     <div className="flex w-full flex-col justify-center items-center">
-                        <button onClick={() => handleAddCard(item)} className="btn btn-outline w-fit h-fit bg-[#E8E8E8] border-0 mt-10 border-b-4 border-[#BB8506] text-[#BB8506] rounded-lg">
+                        <button 
+                            onClick={() => handleAddCard(item)} 
+                            className="btn btn-outline w-fit h-fit bg-[#E8E8E8] border-0 mt-10 border-b-4 border-[#BB8506] text-[#BB8506] rounded-lg"
+                        >
                             ADD TO CARD
                         </button>
                     </div>
