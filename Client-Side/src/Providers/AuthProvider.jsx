@@ -6,12 +6,13 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
     signInWithPopup,
-    signOut
+    signOut,
+    updateProfile
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import auth from "../Firebase/Firebase.config";
-import Swal from "sweetalert2";
+import usePublicAxios from "../Hooks/usePublicAxios";
 
 export const AuthContext = createContext(null);
 
@@ -21,6 +22,7 @@ const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
 
 const AuthProvider = ({ children }) => {
+    const axiosPublic = usePublicAxios();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -28,33 +30,21 @@ const AuthProvider = ({ children }) => {
     const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
     // Create User
-    const createUser = async (email, password) => {
+    const createUser = (email, password) => {
         if (!passwordRegex.test(password)) {
             toast.error('Weak password');
-            return;
+        }
+            return createUserWithEmailAndPassword(auth, email, password);
         }
 
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            Swal.fire({
-                title: "Wow! Account created successfully",
-                icon: "success",
-                confirmButtonText: '<a href="/">Say Thanks!</a>',
-            });
-            return userCredential.user;
-        } catch (error) {
-            toast.error(error.message, {
-                position: "top-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-        }
-    };
+    // update user
+
+    const updateUserProfile = (image, name) => {
+      return updateProfile(auth.currentUser, {
+          photoURL: image,
+          displayName: name
+        });
+      }
 
     // Sign in User
     const signInUser = async (email, password) => {
@@ -104,12 +94,26 @@ const AuthProvider = ({ children }) => {
         const unSubscribeUser = onAuthStateChanged(auth, (currentUser) => {
             setLoading(false);
             setUser(currentUser || null);
+            // console.log(currentUser.email);
+            if(currentUser){
+                const userInfo = {
+                    email: currentUser.email,
+                }
+                axiosPublic.post("/jwt", userInfo)
+                .then(res => {
+                    if(res.data.token){
+                        localStorage.setItem("token", res.data.token);
+                    }
+                })
+            }else{
+                localStorage.removeItem("token");
+            }
         });
 
         return () => {
             unSubscribeUser();
         };
-    }, []);
+    }, [axiosPublic]);
 
     const contextValue = {
         user,
@@ -119,7 +123,8 @@ const AuthProvider = ({ children }) => {
         facebookLogin,
         googleLogin,
         twitterLogin,
-        loading
+        loading,
+        updateUserProfile
     };
 
     return (

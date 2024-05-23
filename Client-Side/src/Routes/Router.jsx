@@ -9,6 +9,7 @@ import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import UserDashboardLayout from "../Layout/UserDashboardLayout";
 import Card from "../Pages/UserDashboard/Card";
+import AllUsers from "../Pages/UserDashboard/Admin/AllUsers";
 
 
   export const router = createBrowserRouter([
@@ -36,12 +37,15 @@ import Card from "../Pages/UserDashboard/Card";
         }
       ]
     },{
-      path:"/userDashboard",
+      path:"/dashboard",
       element:<UserDashboardLayout></UserDashboardLayout>,
       children:[
         {
           path:"my-card",
           element:<Card></Card>
+        },{
+          path:"all-users",
+          element:<AllUsers></AllUsers>
         }
       ]
     }
