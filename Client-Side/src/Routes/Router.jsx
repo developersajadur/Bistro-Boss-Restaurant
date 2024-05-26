@@ -11,6 +11,8 @@ import UserDashboardLayout from "../Layout/UserDashboardLayout";
 import Card from "../Pages/UserDashboard/Card";
 import AllUsers from "../Pages/UserDashboard/Admin/AllUsers";
 import AddItems from "../Pages/UserDashboard/Admin/AddItems";
+import ManageItems from "../Pages/UserDashboard/Admin/ManageItems";
+import UpdateItems from "../Pages/UserDashboard/Admin/UpdateItems";
 
 
   export const router = createBrowserRouter([
@@ -50,6 +52,13 @@ import AddItems from "../Pages/UserDashboard/Admin/AddItems";
         },{
           path:"add-item",
           element:<AddItems></AddItems>
+        },{
+          path:"manage-item",
+          element:<ManageItems></ManageItems>
+        },{
+          path:"update-items/:id",
+          element:<UpdateItems></UpdateItems>,
+          loader:({params}) => fetch(`${import.meta.env.VITE_API_URL}/menus/${params.id}`)
         }
       ]
     }

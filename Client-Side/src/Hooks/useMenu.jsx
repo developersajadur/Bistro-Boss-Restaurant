@@ -1,29 +1,20 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
 import useAxios from "./useAxios";
+import { useQuery } from "react-query";
 
 const useMenu = () => {
-    const [menus, setMenus] = useState([]);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const axiosSecure = useAxios();
+  const axiosSecure = useAxios();
 
-    useEffect(() => {
-        const fetchMenu = async () => {
-            try {
-                const response = await axiosSecure.get("/menus");
-                setMenus(response.data);
-            } catch (err) {
-                setError(err);
-            } finally {
-                setLoading(false);
-            }
-        };
+  const {
+    data: menus = [],
+    isLoading: loading,
+    error,
+    refetch,
+  } = useQuery("menus", async () => {
+    const res = await axiosSecure.get("/menus");
+    return res.data;
+  });
 
-        fetchMenu();
-    }, []);
-
-    return [menus, loading, error];
+  return [menus, loading, error, refetch];
 };
 
 export default useMenu;
