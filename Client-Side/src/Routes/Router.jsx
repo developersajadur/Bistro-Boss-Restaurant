@@ -10,6 +10,7 @@ import Register from "../Pages/Register/Register";
 import UserDashboardLayout from "../Layout/UserDashboardLayout";
 import Card from "../Pages/UserDashboard/Card";
 import AllUsers from "../Pages/UserDashboard/Admin/AllUsers";
+import AddItems from "../Pages/UserDashboard/Admin/AddItems";
 
 
   export const router = createBrowserRouter([
@@ -46,6 +47,9 @@ import AllUsers from "../Pages/UserDashboard/Admin/AllUsers";
         },{
           path:"all-users",
           element:<AllUsers></AllUsers>
+        },{
+          path:"add-item",
+          element:<AddItems></AddItems>
         }
       ]
     }

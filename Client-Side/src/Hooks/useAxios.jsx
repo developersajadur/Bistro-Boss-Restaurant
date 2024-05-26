@@ -4,8 +4,7 @@ import useAuth from "./useAuth";
 import { useEffect } from "react";
 
 export const axiosSecure = axios.create({
-    baseURL: `${import.meta.env.VITE_API_URL}/`,
-    withCredentials: true, // Ensure this is set to send cookies
+    baseURL: `${import.meta.env.VITE_API_URL}/`
 });
 
 const useAxios = () => {
@@ -14,11 +13,11 @@ const useAxios = () => {
 
     useEffect(() => {
         // Request Interceptor
-       axiosSecure.interceptors.request.use(
+        axiosSecure.interceptors.request.use(
             (config) => {
                 const token = localStorage.getItem("token");
-                if (token) {
-                    config.headers.Authorization = `Bearer ${token}`;
+                if (token && config.headers) {
+                    config.headers.Authorization = `${token}`;
                 }
                 return config;
             },
@@ -28,13 +27,14 @@ const useAxios = () => {
         );
 
         // Response Interceptor
-       axiosSecure.interceptors.response.use(
+        axiosSecure.interceptors.response.use(
             (response) => {
                 return response;
             },
             async (error) => {
+                console.log(error);
                 const status = error.response ? error.response.status : null;
-                if (status === 401 || status === 403) {
+                if (status === 401 ) {
                     localStorage.removeItem("token");
                     await logOutUser();
                     navigate("/login");

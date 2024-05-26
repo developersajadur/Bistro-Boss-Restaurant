@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import  { useEffect, useState } from "react";
 import SectionTitle from "../../../Components/SectionTitle";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -14,10 +14,12 @@ import useAxios from "../../../Hooks/useAxios";
 const Testimonials = () => {
     const axiosSecure = useAxios();
     const [testimonials, setTestimonials] = useState([])
-    axiosSecure.get("/reviews")
-    .then(res => {
-        setTestimonials(res.data)
-    })
+    useEffect(() => {
+        axiosSecure.get("/reviews")
+        .then(res => {
+            setTestimonials(res.data)
+        })
+    },[axiosSecure])
     return (
         <div className="my-10">
               <section>

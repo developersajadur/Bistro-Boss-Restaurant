@@ -17,8 +17,8 @@ const UserDashboardMenus = () => {
             <ul className="flex flex-col gap-4 mt-10 uppercase">
             {
                 isAdmin ? <>
-                    <li><NavLink to="" className="flex gap-2 items-center text-lg font-medium text-[#151515]"><FaHome className="text-xl" /> Admin Home</NavLink></li>
-                <li><NavLink to="" className="flex gap-2 items-center text-lg font-medium text-[#151515]"><FaUtensils className="text-xl" /> add items</NavLink></li>
+                    <li><NavLink to="/dashboard/add-item" className="flex gap-2 items-center text-lg font-medium text-[#151515]"><FaHome className="text-xl" /> Admin Home</NavLink></li>
+                <li><NavLink to="/dashboard/add-item" className="flex gap-2 items-center text-lg font-medium text-[#151515]"><FaUtensils className="text-xl" /> add items</NavLink></li>
                 <li><NavLink to="" className="flex gap-2 items-center text-lg font-medium text-[#151515]"><TfiMenuAlt className="text-xl" /> manage items</NavLink></li>
                 <li><NavLink to="" className="flex gap-2 items-center text-lg font-medium text-[#151515]"><FaBook className="text-xl" />Manage bookings</NavLink></li>
                 <li><NavLink to="/dashboard/all-users" className="flex gap-2 items-center text-lg font-medium text-[#151515]"><FaUsers className="text-xl" />all users</NavLink></li>

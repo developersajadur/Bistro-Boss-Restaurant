@@ -7,7 +7,7 @@ const UserDashboardLayout = () => {
             <div className="w-[25%] min-h-screen bg-[#D1A054]">
                 <UserDashboardMenus></UserDashboardMenus>
             </div>
-            <div className="w-[75%] px-24 min-h-screen bg-[#f6f6f6]">
+            <div className="w-[75%] px-24 min-h-screen bg-white">
                 <Outlet></Outlet>
             </div>
         </div>

@@ -20,7 +20,7 @@ const AllUsers = () => {
   const handleUserRole = (id) => {
     axiosSecure
      .patch(`/users/admin/${id}`, {
-        role: "user",
+        role: "Admin",
       })
      .then(res => {
         if(res.data.modifiedCount > 0){
